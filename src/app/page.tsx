@@ -1,3 +1,9 @@
+import CurrentWeatherComponent from "@/Components/CurrentWeatherComponent";
+import FavoritesComponent from "@/Components/FavoritesComponent";
+import FutureWeatherComponent from "@/Components/FutureWeatherComponent";
+import InfoDisplayComponent from "@/Components/InfoDIsplayComponent";
+
+
 
 
 export default function Home() {
@@ -11,39 +17,22 @@ export default function Home() {
           <h1 className="text-center text-[40px] text-black">Search</h1>
           <input type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
         </div>
+
         {/* City name, date, and add favorites */}
-        <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 justify-self-end flex items-center md:items-end flex-col rounded-[5px] md:w-[90%] md:h-[75%] md:row-start-1 md:row-end-4 md:col-start-3 md:col-end-5">
-            <h1 className="md:text-[45px] lg:text-[70px] pe-6">Cleveland, Ohio</h1>
-            <h3 className="pe-6 text-[40px]">22/22/2222</h3>
-            <div className="text-center bg-[#E4FF4A] text-black border-[2px] rounded-[5px] text-[25px] w-[250px] h-[75px] me-6"> 
-            Add/Remove from favorites
-            </div>
-        </div>
+       <InfoDisplayComponent/>
+
           {/* current weather display */}
-          <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 rounded-[5px] flex flex-col items-center justify-self-center md:w-[55%] md:row-start-4 md:row-end-7 md:col-start-1 md:col-end-5">
-            <h1 className="text-white text-center text-[50px] ">Current Weather</h1>
-            <div className="w-full h-[78%] flex flex-row">
-              <img className="h-[90%] w-[45%] self-center" src="/images/king-von-rapper.gif" alt="Weather Icon" />
-              <div className="flex flex-col items-center justify-center h-full w-[55%]">
-                <h1 className="text-center text-[75px]">152*</h1>
-                <div className="flex flex-row justify-around w-full">
-                  <div className="flex flex-col">
-                    <h3 className="text-black text-center text-[25px]">Min</h3>
-                    <h3 className="text-black text-center text-[25px]">temperature</h3>
-                    <h3 className="text-center text-[25px]">132*</h3>
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className="text-black text-center text-[25px]">Max</h3>
-                    <h3 className="text-black text-center text-[25px]">temperature</h3>
-                    <h3 className="text-center text-[25px]">132*</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CurrentWeatherComponent/>
 
-          <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 h-[90%] self-end rounded-[5px] flex flex-row items-center md:row-start-7 md:row-end-9 md:col-start-1 md:col-end-5">
+          <FavoritesComponent />
 
+          <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 h-[80%] self-end rounded-[5px] flex flex-row justify-around items-center md:row-start-7 md:row-end-9 md:col-start-1 md:col-end-5">
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Tuesday"}/>
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Wednesday"}/>
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Thursday"}/>
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Friday"}/>
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Saturday"}/>
+            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Sunday"}/>
           </div>
 
         </div>
