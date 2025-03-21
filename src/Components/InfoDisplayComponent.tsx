@@ -1,8 +1,9 @@
 import { getFromLocalFav, removeFromLocalFav, saveToLocalFav } from '@/Services/LocalStorage';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const InfoDisplayComponent = (props: { placeName: string; day: string; month: string; year: number; setPlaceName: any }) => {
 
+    
   const favoritesFunc = () => {
     if(getFromLocalFav().includes(props.placeName))
     {

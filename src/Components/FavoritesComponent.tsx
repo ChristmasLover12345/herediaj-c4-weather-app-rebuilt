@@ -12,12 +12,7 @@ const FavoritesComponent = (props: {city: string; setSearch: any; getCityFunc: a
   const favBtn = (name: string) => {
     removeFromLocalSeen(props.city)
     props.setSearch(name)
-    props.getCityFunc()
-    .then(() => {
-      props.currentDisplayFunc()
-      props.futureDisplay()
-    })
-    
+    props.getCityFunc(name)
   }
 
   
