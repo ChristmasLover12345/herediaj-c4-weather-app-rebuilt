@@ -1,6 +1,6 @@
 // FAVORITE STORAGE
-function saveToLocalFav(place: any){
-    let placeArr = getFromLocalFav();
+function saveToLocalFav(place: string){
+    const placeArr = getFromLocalFav();
     if (!placeArr.includes(place)){
         placeArr.push(place);
     }
@@ -8,7 +8,7 @@ function saveToLocalFav(place: any){
 }
 
 function getFromLocalFav(){
-    let localStorageData = localStorage.getItem('Favorites');
+    const localStorageData = localStorage.getItem('Favorites');
     if (localStorageData == null){
         return [];
     }
@@ -16,9 +16,9 @@ function getFromLocalFav(){
 }
 
 
-function removeFromLocalFav(place: any){
-    let localStorageData = getFromLocalFav();
-    let placeIndex = localStorageData.indexOf(place);
+function removeFromLocalFav(place: string){
+    const localStorageData = getFromLocalFav();
+    const placeIndex = localStorageData.indexOf(place);
     localStorageData.splice(placeIndex, 1);
     localStorage.setItem('Favorites', JSON.stringify(localStorageData));
 }
@@ -27,8 +27,8 @@ function removeFromLocalFav(place: any){
 
 
 // the one they visited last
-function saveToLocalSeen(last: any){
-    let lastArr = getFromLocalSeen();
+function saveToLocalSeen(last: string){
+    const lastArr = getFromLocalSeen();
     if (!lastArr.includes(last)){
         lastArr.push(last);
     }
@@ -36,7 +36,7 @@ function saveToLocalSeen(last: any){
 }
 
 function getFromLocalSeen(){
-    let localStorageData = localStorage.getItem('Last Seen');
+    const localStorageData = localStorage.getItem('Last Seen');
     if (localStorageData == null){
         return [];
     }
@@ -44,9 +44,9 @@ function getFromLocalSeen(){
 }
 
 
-function removeFromLocalSeen(last: any){
-    let localStorageData = getFromLocalSeen();
-    let seenIndex = localStorageData.indexOf(last);
+function removeFromLocalSeen(last: string){
+    const localStorageData = getFromLocalSeen();
+    const seenIndex = localStorageData.indexOf(last);
     localStorageData.splice(seenIndex, 1);
     localStorage.setItem('Last Seen', JSON.stringify(localStorageData));
 }

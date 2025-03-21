@@ -1,7 +1,7 @@
 import { getFromLocalFav, removeFromLocalFav, saveToLocalFav } from '@/Services/LocalStorage';
 import React, { useEffect } from 'react'
 
-const InfoDisplayComponent = (props: { placeName: string; day: string; month: string; year: number; setPlaceName: any; updateFavs: any }) => {
+const InfoDisplayComponent = (props: { placeName: string; day: string; month: string; year: number; setPlaceName: (string: string) => void; updateFavs: () => void }) => {
 
 
     

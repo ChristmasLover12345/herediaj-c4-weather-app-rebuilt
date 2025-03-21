@@ -1,7 +1,7 @@
 import { getFromLocalFav, removeFromLocalSeen } from '@/Services/LocalStorage';
 import React, { useEffect, useState } from 'react'
 
-const FavoritesComponent = (props: {city: string; setSearch: any; getCityFunc: any; currentDisplayFunc: any; futureDisplay: any; favorites: string[]; updateFavs: any;} ) => {
+const FavoritesComponent = (props: {city: string; setSearch: (string: string) => void; getCityFunc: (name: string) => void; currentDisplayFunc: () => void; futureDisplay: () => void; favorites: string[]; updateFavs: () => void;} ) => {
   
 
   useEffect(() => {
@@ -28,7 +28,8 @@ const FavoritesComponent = (props: {city: string; setSearch: any; getCityFunc: a
  
         {props.favorites.length > 0 ? (
           props.favorites.map((name, index) => (
-            <div key={index} onClick={() => favBtn(name)} className='text-center w-full text-[25px] truncate text-black py-0.5 border-2 bg-[#D9D9D9]'>{name}</div>
+            <div key={index} onClick={() => favBtn(name)} className='text-center w-full text-[25px] truncate
+             text-black py-0.5 border-2 bg-[#D9D9D9]'>{name}</div>
           )
         )) : (
           <h1></h1>

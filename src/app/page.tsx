@@ -6,7 +6,7 @@ import FutureWeatherComponent from "@/Components/FutureWeatherComponent";
 import InfoDisplayComponent from "@/Components/InfoDisplayComponent";
 import { CurrentWeather, forecastWeather, getName } from "@/Services/DataFetches";
 import { getFromLocalFav, getFromLocalSeen, removeFromLocalSeen, saveToLocalSeen } from "@/Services/LocalStorage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 
@@ -60,7 +60,7 @@ export default function Home() {
 
   // Gets the city name and coordinates
   const getCityName = async (search: string) => {
-    let data = await getName(search)
+    const data = await getName(search)
 
     setLat(data[0].lat)
     setLon(data[0].lon)
@@ -70,7 +70,9 @@ export default function Home() {
   }
 
   // Search bar function
-  const searchBarFunc = async (key: any, search: string) => {
+  const searchBarFunc = async (key: React.KeyboardEvent<HTMLInputElement>, search: string) => {
+
+      
 
       if (key === "Enter")
       {
@@ -163,50 +165,50 @@ export default function Home() {
   }, [lat, lon]);
 
   const getHomeName = async () => {
-    let data = await CurrentWeather(lat, lon)
+    const data = await CurrentWeather(lat, lon)
     setCityName(data.name)
     saveToLocalSeen(data.name)
   }
 
-   // This is the onload function, do not comment out until project is done
-  // useEffect(() => {
+   // This is the onload function
+  useEffect(() => {
 
-  // const onLoadFunc = async () => {
-  //   const box = await getFromLocalSeen()
+  const onLoadFunc = async () => {
+    const box = await getFromLocalSeen()
 
-  //   const success = async (position: any) =>
-  //         {
-  //           setLat(position.coords.latitude)
-  //           setLon(position.coords.longitude)
-  //           await getHomeName()
-  //         }
+    const success = async (position: any) =>
+          {
+            setLat(position.coords.latitude)
+            setLon(position.coords.longitude)
+            await getHomeName()
+          }
 
-  //   const errorFunc = async () => {
-  //         setLat(52.3676)
-  //         setLon(4.9041)
-  //         await getHomeName()
-  //         }
+    const errorFunc = async () => {
+          setLat(52.3676)
+          setLon(4.9041)
+          await getHomeName()
+          }
           
-  //   if(!box || box.length === 0)
-  //   {
-  //     console.log("This is your first time here!")
-  //     navigator.geolocation.getCurrentPosition( success, errorFunc)
+    if(!box || box.length === 0)
+    {
+      console.log("This is your first time here!")
+      navigator.geolocation.getCurrentPosition( success, errorFunc)
 
       
-  //   }
-  //   else
-  //   {
-  //     setUserSearch(box[0])
-  //     await getCityName(box[0])
-  //   }
+    }
+    else
+    {
+      setUserSearch(box[0])
+      await getCityName(box[0])
+    }
 
 
     
 
-  // }
+  }
 
-  // onLoadFunc()
-  // },[])
+  onLoadFunc()
+  },[])
 
   return (
     <div className="h-screen w-screen bg-[url(/images/weatherdevice.jpg)] flex justify-center items-center bg-cover bg-center bg-no-repeat">
