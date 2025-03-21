@@ -4,6 +4,7 @@ import CurrentWeatherComponent from "@/Components/CurrentWeatherComponent";
 import FavoritesComponent from "@/Components/FavoritesComponent";
 import FutureWeatherComponent from "@/Components/FutureWeatherComponent";
 import InfoDisplayComponent from "@/Components/InfoDisplayComponent";
+import { GeoINterface } from "@/interfaces/interface";
 import { CurrentWeather, forecastWeather, getName } from "@/Services/DataFetches";
 import { getFromLocalFav, getFromLocalSeen, removeFromLocalSeen, saveToLocalSeen } from "@/Services/LocalStorage";
 import React, { useEffect, useState } from "react";
@@ -174,7 +175,7 @@ export default function Home() {
   const onLoadFunc = async () => {
     const box = await getFromLocalSeen()
 
-    const success = async (position: any) =>
+    const success = async (position: GeoINterface) =>
           {
             console.log(position)
             setLat(position.coords.latitude)
