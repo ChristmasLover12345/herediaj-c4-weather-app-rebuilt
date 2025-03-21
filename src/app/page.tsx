@@ -18,7 +18,6 @@ export default function Home() {
   const [lon, setLon] = useState(0)
   const [userSearch, setUserSearch] = useState("")
   const [cityName, setCityName] = useState("")
-  const [add2Fav, setAdd2Fav] = useState("")
 
   const [day, setDay] = useState("")
   const [month, setMonth] = useState("")
@@ -46,6 +45,12 @@ export default function Home() {
   const[futureIcon3, setFutureIcon3] = useState("")
   const[futureIcon4, setFutureIcon4] = useState("")
   const[futureIcon5, setFutureIcon5] = useState("")
+
+  const [futureDay1, setFutureDay1] = useState("")
+  const [futureDay2, setFutureDay2] = useState("")
+  const [futureDay3, setFutureDay3] = useState("")
+  const [futureDay4, setFutureDay4] = useState("")
+  const [futureDay5, setFutureDay5] = useState("")
 
   const getCityName = async () => {
     let data = await getName(userSearch)
@@ -83,7 +88,7 @@ export default function Home() {
     const timeSinceEpoch = data.dt * 1000; 
     const currentDate = new Date(timeSinceEpoch);
 
-    const currentDay = ["Sunday ", "Monday ", "Tuesday,", "Wednesday ", "Thursday ", "Friday ", "Saturday "];
+    const currentDay = ["Sunday ", "Monday ", "Tuesday", "Wednesday ", "Thursday ", "Friday ", "Saturday "];
     const months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
     setDay(currentDay[currentDate.getDay()]);
@@ -97,7 +102,6 @@ export default function Home() {
     setMinTemp(data.main.temp_min);
     setMaxTemp(data.main.temp_max);
 
-    setAdd2Fav(cityName)
 
   };
 
@@ -116,34 +120,63 @@ export default function Home() {
     setFutureMaxTemp4(((data.list[24].main.temp_max + data.list[25].main.temp_max + data.list[26].main.temp_max + data.list[27].main.temp_max + data.list[28].main.temp_max + data.list[29].main.temp_max + data.list[30].main.temp_max + data.list[31].main.temp_max) / 8).toFixed())
     setFutureMaxTemp5(((data.list[32].main.temp_max + data.list[33].main.temp_max + data.list[34].main.temp_max + data.list[35].main.temp_max + data.list[36].main.temp_max + data.list[37].main.temp_max + data.list[38].main.temp_max + data.list[39].main.temp_max) / 8).toFixed())
 
+    setFutureIcon1(`http://openweathermap.org/img/wn/${data.list[4].weather[0].icon}@2x.png`)
+    setFutureIcon2(`http://openweathermap.org/img/wn/${data.list[12].weather[0].icon}@2x.png`)
+    setFutureIcon3(`http://openweathermap.org/img/wn/${data.list[20].weather[0].icon}@2x.png`)
+    setFutureIcon4(`http://openweathermap.org/img/wn/${data.list[28].weather[0].icon}@2x.png`)
+    setFutureIcon5(`http://openweathermap.org/img/wn/${data.list[36].weather[0].icon}@2x.png`)
+
+    const seconds1 = new Date((data.list[4].dt * 1000));
+    const seconds2 = new Date((data.list[12].dt * 1000));
+    const seconds3 = new Date((data.list[20].dt * 1000));
+    const seconds4 = new Date((data.list[28].dt * 1000));
+    const seconds5 = new Date((data.list[36].dt * 1000));
+
+    const dayName1 = seconds1.getDay();
+    const dayName2 = seconds2.getDay();
+    const dayName3 = seconds3.getDay();
+    const dayName4 = seconds4.getDay();
+    const dayName5 = seconds5.getDay();
+
+    const futureDay = ["Sunday ", "Monday ", "Tuesday ", "Wednesday ", "Thursday ", "Friday ", "Saturday "]
+
+    setFutureDay1(`${futureDay[dayName1]}`)
+    setFutureDay2(`${futureDay[dayName2]}`)
+    setFutureDay3(`${futureDay[dayName3]}`)
+    setFutureDay4(`${futureDay[dayName4]}`)
+    setFutureDay5(`${futureDay[dayName5]}`)
+
   }
+
 
   return (
     <div className="h-screen w-screen bg-[url(/images/weatherdevice.jpg)] flex justify-center items-center bg-cover bg-center bg-no-repeat">
 
       <div className=" h-full w-[95%] md:h-[95%] grid grid-cols-2 grid-rows-14 gap-2 md:gap-0 md:grid-rows-8 md:grid-cols-4 ">
 
+        {/* FIX THIS SHIT TOMORROW BRUH (FRIDAY) */}
+
         {/* Seacrh bar */}
         <div className="bg-[#D9D9D9]/60 backdrop-invert backdrop-opacity-10 flex flex-col rounded-[5px] md:w-[85%] row-start-9 md:row-start-1 col-start-1 col-end-3 md:col-end-1">
           <h1 className="text-center text-[40px] text-black">Search</h1>
-          <input type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
+          <input onKeyDown={(event) => searchBarFunc(event.key, event.target.value)} type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
         </div>
 
         {/* City name, date, and add favorites */}
-       <InfoDisplayComponent day={day} month={month} year={year} placeName={cityName}/>
+       <InfoDisplayComponent day={day} month={month} year={year} placeName={cityName} setPlaceName={setCityName}/>
 
           {/* current weather display */}
           <CurrentWeatherComponent icon={currentIcon} temp={currentTemp} minTemp={minTemp} maxTemp={maxTemp}/>
 
-          <FavoritesComponent />
+          <FavoritesComponent city={cityName} setSearch={setUserSearch} getCityFunc={getCityName} currentDisplayFunc ={currentDisplay} futureDisplay={forecastFunc}/>
 
           <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 h-[80%] self-end rounded-[5px] flex flex-row justify-around items-center md:row-start-7 md:row-end-9 md:col-start-1 md:col-end-5">
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Tuesday"}/>
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Wednesday"}/>
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Thursday"}/>
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Friday"}/>
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Saturday"}/>
-            <FutureWeatherComponent minTemp={123} maxTemp={123} dayOfTheWeek={"Sunday"}/>
+            <FutureWeatherComponent minTemp={futureMinTemp1} maxTemp={futureMaxTemp1} dayOfTheWeek={futureDay1} icon={futureIcon1}/>
+            <FutureWeatherComponent minTemp={futureMinTemp2} maxTemp={futureMaxTemp2} dayOfTheWeek={futureDay2} icon={futureIcon2}/>
+            <FutureWeatherComponent minTemp={futureMinTemp3} maxTemp={futureMaxTemp3} dayOfTheWeek={futureDay3} icon={futureIcon3}/>
+            <FutureWeatherComponent minTemp={futureMinTemp4} maxTemp={futureMaxTemp4} dayOfTheWeek={futureDay4} icon={futureIcon4}/>
+            <FutureWeatherComponent minTemp={futureMinTemp5} maxTemp={futureMaxTemp5} dayOfTheWeek={futureDay5} icon={futureIcon5}/>
+            
           </div>
 
         </div>
