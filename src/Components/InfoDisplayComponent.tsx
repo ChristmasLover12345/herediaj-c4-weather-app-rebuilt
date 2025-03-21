@@ -1,7 +1,8 @@
 import { getFromLocalFav, removeFromLocalFav, saveToLocalFav } from '@/Services/LocalStorage';
 import React, { useEffect } from 'react'
 
-const InfoDisplayComponent = (props: { placeName: string; day: string; month: string; year: number; setPlaceName: any }) => {
+const InfoDisplayComponent = (props: { placeName: string; day: string; month: string; year: number; setPlaceName: any; updateFavs: any }) => {
+
 
     
   const favoritesFunc = () => {
@@ -15,13 +16,16 @@ const InfoDisplayComponent = (props: { placeName: string; day: string; month: st
       saveToLocalFav(props.placeName)
       props.setPlaceName(props.placeName)
     }
+
+
+    props.updateFavs()
   }
 
   return (
-    <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 justify-self-end flex items-center md:items-end flex-col rounded-[5px] md:w-[90%] md:h-[75%] md:row-start-1 md:row-end-4 md:col-start-3 md:col-end-5">
-    <h1 className="md:text-[45px] lg:text-[70px] pe-6">{props.placeName}</h1>
-    <h3 className="pe-6 text-[40px]">{`${props.day}/${props.month}/${props.year}`}</h3>
-    <div onClick={favoritesFunc} className="text-center bg-[#E4FF4A] text-black border-[2px] rounded-[5px] text-[25px] w-[250px] h-[75px] me-6"> 
+    <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 justify-self-end flex items-center md:items-end flex-col rounded-[5px] self-center w-full h-[80%] md:w-[90%] md:h-[75%] row-start-1 row-end-4 col-start-1 col-end-3 md:col-start-3 md:col-end-5">
+    <h1 className="text-[35px] md:text-[45px] lg:text-[70px] md:pe-6">{props.placeName}</h1>
+    <h3 className="md:pe-6 text-[30px] md:text-[40px]">{`${props.day}/${props.month}/${props.year}`}</h3>
+    <div onClick={favoritesFunc} className="text-center flex flex-col items-center bg-[#E4FF4A] text-black border-[2px] rounded-[5px] px-1 md:px-0 text-[25px] w-80% md:w-[250px] md:h-[75px] md:me-6"> 
     Add/Remove from favorites
     </div>
 </div>

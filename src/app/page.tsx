@@ -5,7 +5,7 @@ import FavoritesComponent from "@/Components/FavoritesComponent";
 import FutureWeatherComponent from "@/Components/FutureWeatherComponent";
 import InfoDisplayComponent from "@/Components/InfoDisplayComponent";
 import { CurrentWeather, forecastWeather, getName } from "@/Services/DataFetches";
-import { getFromLocalSeen, removeFromLocalSeen, saveToLocalSeen } from "@/Services/LocalStorage";
+import { getFromLocalFav, getFromLocalSeen, removeFromLocalSeen, saveToLocalSeen } from "@/Services/LocalStorage";
 import { useEffect, useState } from "react";
 
 
@@ -52,6 +52,12 @@ export default function Home() {
   const [futureDay4, setFutureDay4] = useState("")
   const [futureDay5, setFutureDay5] = useState("")
 
+  const [favorites, setFavorites] = useState([]);
+
+  const updateFavorites = () => {
+    setFavorites(getFromLocalFav())
+  }
+
   // Gets the city name and coordinates
   const getCityName = async (search: string) => {
     let data = await getName(search)
@@ -74,25 +80,8 @@ export default function Home() {
       }
   }
 
-  // This is the onload function, do not comment out until project is done
-  // useEffect(() => {
+ 
 
-  // const onLoadFunc = async () => {
-  //   const box = await getFromLocalSeen()
-  //   setUserSearch(box)
-  //   await getCityName(box)
-
-  // }
-
-  // onLoadFunc()
-  // },[])
-
-  useEffect(() => {
-    if (lat !== 0 && lon !== 0) {
-      currentDisplay();
-      forecastFunc();
-    }
-  }, [lat, lon]);
 
   // Displays the curernt weather and date
   const currentDisplay = async () => {
@@ -165,6 +154,60 @@ export default function Home() {
   }
 
 
+
+  useEffect(() => {
+    if (lat !== 0 && lon !== 0) {
+      currentDisplay();
+      forecastFunc();
+    }
+  }, [lat, lon]);
+
+  const getHomeName = async () => {
+    let data = await CurrentWeather(lat, lon)
+    setCityName(data.name)
+    saveToLocalSeen(data.name)
+  }
+
+   // This is the onload function, do not comment out until project is done
+  // useEffect(() => {
+
+  // const onLoadFunc = async () => {
+  //   const box = await getFromLocalSeen()
+
+  //   const success = async (position: any) =>
+  //         {
+  //           setLat(position.coords.latitude)
+  //           setLon(position.coords.longitude)
+  //           await getHomeName()
+  //         }
+
+  //   const errorFunc = async () => {
+  //         setLat(52.3676)
+  //         setLon(4.9041)
+  //         await getHomeName()
+  //         }
+          
+  //   if(!box || box.length === 0)
+  //   {
+  //     console.log("This is your first time here!")
+  //     navigator.geolocation.getCurrentPosition( success, errorFunc)
+
+      
+  //   }
+  //   else
+  //   {
+  //     setUserSearch(box[0])
+  //     await getCityName(box[0])
+  //   }
+
+
+    
+
+  // }
+
+  // onLoadFunc()
+  // },[])
+
   return (
     <div className="h-screen w-screen bg-[url(/images/weatherdevice.jpg)] flex justify-center items-center bg-cover bg-center bg-no-repeat">
 
@@ -173,20 +216,20 @@ export default function Home() {
         
 
         {/* Seacrh bar */}
-        <div className="bg-[#D9D9D9]/60 backdrop-invert backdrop-opacity-10 flex flex-col rounded-[5px] md:w-[85%] row-start-9 md:row-start-1 col-start-1 col-end-3 md:col-end-1">
+        <div className="bg-[#D9D9D9]/60 backdrop-invert backdrop-opacity-10 flex flex-col rounded-[5px] md:w-[85%] row-start-9 row-end-11 md:row-start-1 md:row-end-1 col-start-1 col-end-3 md:col-end-1">
           <h1 className="text-center text-[40px] text-black">Search</h1>
           <input onKeyUp={(event) => searchBarFunc(event.key, event.currentTarget.value)} type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
         </div>
 
         {/* City name, date, and add favorites */}
-       <InfoDisplayComponent day={day} month={month} year={year} placeName={cityName} setPlaceName={setCityName}/>
+       <InfoDisplayComponent day={day} month={month} year={year} placeName={cityName} setPlaceName={setCityName} updateFavs={updateFavorites}/>
 
           {/* current weather display */}
           <CurrentWeatherComponent icon={currentIcon} temp={currentTemp} minTemp={minTemp} maxTemp={maxTemp}/>
 
-          <FavoritesComponent city={cityName} setSearch={setUserSearch} getCityFunc={getCityName} currentDisplayFunc ={currentDisplay} futureDisplay={forecastFunc}/>
+          <FavoritesComponent city={cityName} setSearch={setUserSearch} getCityFunc={getCityName} currentDisplayFunc ={currentDisplay} futureDisplay={forecastFunc} favorites={favorites} updateFavs={updateFavorites}/>
 
-          <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 h-[80%] self-end rounded-[5px] flex flex-row justify-around items-center md:row-start-7 md:row-end-9 md:col-start-1 md:col-end-5">
+          <div className="bg-[#D9D9D9]/40 backdrop-invert backdrop-opacity-10 overflow-y-scroll w-[95%] h-[95%] md:w-full md:h-[80%] self-center justify-self-end md:justify-self-auto md:self-end rounded-[5px] flex flex-col md:flex-row justify-around items-center row-start-11 row-end-[15] col-start-2 md:row-start-7 md:row-end-9 md:col-start-1 md:col-end-5">
             <FutureWeatherComponent minTemp={futureMinTemp1} maxTemp={futureMaxTemp1} dayOfTheWeek={futureDay1} icon={futureIcon1}/>
             <FutureWeatherComponent minTemp={futureMinTemp2} maxTemp={futureMaxTemp2} dayOfTheWeek={futureDay2} icon={futureIcon2}/>
             <FutureWeatherComponent minTemp={futureMinTemp3} maxTemp={futureMaxTemp3} dayOfTheWeek={futureDay3} icon={futureIcon3}/>
