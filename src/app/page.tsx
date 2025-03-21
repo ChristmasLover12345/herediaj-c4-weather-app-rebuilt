@@ -70,7 +70,7 @@ export default function Home() {
   }
 
   // Search bar function
-  const searchBarFunc = async (key: React.KeyboardEvent<HTMLInputElement>, search: string) => {
+  const searchBarFunc = async (key: React.KeyboardEvent<HTMLInputElement> | string, search: string) => {
 
       
 
