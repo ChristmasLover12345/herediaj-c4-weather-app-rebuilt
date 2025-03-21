@@ -1,5 +1,4 @@
-import { APIKEY } from "./Key";
-
+const APIKEY = process.env.APIKEY;
 
 async function CurrentWeather(lat: number, lon: number) {
 
