@@ -1,4 +1,4 @@
-const APIKEY = process.env.APIKEY;
+const APIKEY = process.env.NEXT_PUBLIC_API_KEY;
 
 async function CurrentWeather(lat: number, lon: number) {
 

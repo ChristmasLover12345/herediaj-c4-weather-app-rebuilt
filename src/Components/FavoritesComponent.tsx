@@ -1,5 +1,5 @@
-import { getFromLocalFav, removeFromLocalSeen } from '@/Services/LocalStorage';
-import React, { useEffect, useState } from 'react'
+import { removeFromLocalSeen } from '@/Services/LocalStorage';
+import React, { useEffect } from 'react'
 
 const FavoritesComponent = (props: {city: string; setSearch: (string: string) => void; getCityFunc: (name: string) => void; currentDisplayFunc: () => void; futureDisplay: () => void; favorites: string[]; updateFavs: () => void;} ) => {
   

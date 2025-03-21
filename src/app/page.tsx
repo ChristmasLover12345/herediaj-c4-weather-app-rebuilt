@@ -70,11 +70,9 @@ export default function Home() {
   }
 
   // Search bar function
-  const searchBarFunc = async (key: React.KeyboardEvent<HTMLInputElement> | string, search: string) => {
+  const searchBarFunc = async (event: React.KeyboardEvent<HTMLInputElement>, search: string) => {
 
-      
-
-      if (key === "Enter")
+      if (event.key === "Enter")
       {
       removeFromLocalSeen(userSearch)
       setUserSearch(search)
@@ -87,7 +85,7 @@ export default function Home() {
 
   // Displays the curernt weather and date
   const currentDisplay = async () => {
-    let data = await CurrentWeather(lat, lon);
+    const data = await CurrentWeather(lat, lon);
     console.log(data);
 
     // Setting the time
@@ -178,6 +176,7 @@ export default function Home() {
 
     const success = async (position: any) =>
           {
+            console.log(position)
             setLat(position.coords.latitude)
             setLon(position.coords.longitude)
             await getHomeName()
@@ -220,7 +219,7 @@ export default function Home() {
         {/* Seacrh bar */}
         <div className="bg-[#D9D9D9]/60 backdrop-invert backdrop-opacity-10 flex flex-col rounded-[5px] md:w-[85%] row-start-9 row-end-11 md:row-start-1 md:row-end-1 col-start-1 col-end-3 md:col-end-1">
           <h1 className="text-center text-[40px] text-black">Search</h1>
-          <input onKeyUp={(event) => searchBarFunc(event.key, event.currentTarget.value)} type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
+          <input onKeyUp={(event) => searchBarFunc(event, event.currentTarget.value)} type="text" placeholder="Search a city" className=" bg-white text-black ps-2 w-[80%] self-center rounded-[5px] h-[40%]"  />
         </div>
 
         {/* City name, date, and add favorites */}
